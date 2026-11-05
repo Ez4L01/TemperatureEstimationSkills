@@ -10,8 +10,11 @@ This skill is a prompt collection, not an automated research agent. Use it only 
 ## Use
 
 - When asked to view the stator temperature research prompt directory, list the categories and the available prompt titles with a brief description of each.
-- When asked to display a prompt, return its complete text, including its replaceable variables, so it can be copied and used elsewhere.
-- When given a new prompt to save, preserve its original meaning and key details, classify it under the closest category, and add it to [references/prompts.md](references/prompts.md). Keep the title, purpose, full body, and replaceable variables together.
+- When asked to display or copy a specific prompt, read its linked Markdown file and return the complete text, including its replaceable variables. Do not shorten or paraphrase it.
+- Showing, copying, or managing a prompt is separate from executing it. Do not start model training or other research work when the user only asks to view, copy, or manage a prompt.
+- Execute a stored prompt as a research task specification only when the user explicitly asks you to carry it out.
+- When given a new prompt to save, preserve its original meaning and key details, classify it under the closest category, save its complete body in Markdown, and register its title, purpose, replaceable variables, and link in [references/prompts.md](references/prompts.md). Do not overwrite existing prompts.
+- The complete model optimization, hardware acceleration, and ablation prompt is [references/stator-temp-optimization.md](references/stator-temp-optimization.md). Read that file when the user asks to view or copy it.
 
 ## Prompt Index
 
