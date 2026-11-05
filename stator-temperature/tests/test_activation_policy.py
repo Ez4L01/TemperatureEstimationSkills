@@ -12,8 +12,8 @@ import unittest
 
 REPO = Path(__file__).resolve().parents[2]
 SKILL_DIR = REPO / "stator-temperature" / ".agents" / "skills"
-PROMPTS_DIR = SKILL_DIR / "stator-temp-prompts"
 OPTIMIZER_DIR = SKILL_DIR / "stator-temp-optimizer"
+PROMPTS_DIR = REPO / "stator-temperature" / "prompts"
 SKILL = (OPTIMIZER_DIR / "SKILL.md").read_text(encoding="utf-8")
 AGENTS_TEMPLATE = (REPO / "stator-temperature" / "templates" / "AGENTS.template.md").read_text(encoding="utf-8")
 SPEC = (OPTIMIZER_DIR / "references" / "research-execution-spec.md").read_text(encoding="utf-8")
@@ -52,8 +52,9 @@ class SessionGate:
 
 
 class ActivationPolicyTests(unittest.TestCase):
-    def test_contract_and_migrated_spec_are_present(self):
+    def test_contract_and_single_authoritative_spec_are_present(self):
         self.assertIn("name: stator-temp-optimizer", SKILL)
+        self.assertNotIn("name: stator-temp-prompts", SKILL)
         self.assertIn("INACTIVE", SKILL)
         self.assertIn("ACTIVE", SKILL)
         self.assertIn("Ablation/experiment_state.json", SKILL)
@@ -66,9 +67,12 @@ class ActivationPolicyTests(unittest.TestCase):
         self.assertIn("Codex's", AGENTS_TEMPLATE)
         for term in ("10%", "Early Stopping", "CUDA", "MeanRMSE", "MaxAbs", "PooledRMSE"):
             self.assertIn(term, SPEC)
-        original = (PROMPTS_DIR / "references" / "stator-temp-optimization.md").read_bytes()
-        migrated = (OPTIMIZER_DIR / "references" / "research-execution-spec.md").read_bytes()
-        self.assertEqual(original, migrated)
+        self.assertIn("## 20. Agent 自主执行总原则", SPEC)
+        self.assertIn("不得将测试集用于梯度训练", SPEC)
+        self.assertIn("必须优先保存到项目本地的 `Ablation` 文件夹中", SPEC)
+        self.assertTrue((PROMPTS_DIR / "index.md").is_file())
+        self.assertIn("research-execution-spec.md", (PROMPTS_DIR / "index.md").read_text(encoding="utf-8"))
+        self.assertFalse((SKILL_DIR / "stator-temp-prompts").exists())
 
     def test_01_new_conversation_starts_inactive(self):
         gate = SessionGate()

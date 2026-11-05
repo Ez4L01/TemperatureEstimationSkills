@@ -1,6 +1,6 @@
 # Stator Temperature Project Instructions
 
-Use these instructions only when this template is deliberately copied or merged into a research project's `AGENTS.md`. They do not apply globally. `stator-temp-prompts` and `stator-temp-optimizer` are independent Skills; these execution rules do not restrict explicit use of another Skill.
+Use these instructions only when this template is deliberately copied or merged into a research project's `AGENTS.md`. They do not apply globally. The optimizer is an execution Skill; prompts are maintained as ordinary Markdown documents. These execution rules do not restrict explicit use of another Skill.
 
 ## Session gate for `stator-temp-optimizer`
 

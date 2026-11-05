@@ -1,6 +1,6 @@
 # Stator Temperature Project Instructions
 
-Use this template only when deliberately copied or merged into a research project's `CLAUDE.md`. These instructions apply to this project and do not change Claude Code's user-level settings. The `stator-temp-prompts` and `stator-temp-optimizer` Skills are independent.
+Use this template only when deliberately copied or merged into a research project's `CLAUDE.md`. These instructions apply to this project and do not change Claude Code's user-level settings. The optimizer is an execution Skill; research prompts are ordinary Markdown documents.
 
 ## Session gate for `stator-temp-optimizer`
 

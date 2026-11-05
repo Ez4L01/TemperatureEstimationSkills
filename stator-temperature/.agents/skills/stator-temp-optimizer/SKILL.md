@@ -5,7 +5,7 @@ description: Optimize neural-network-based motor stator-temperature models throu
 
 # Stator Temperature Optimizer
 
-This execution skill is independent of `stator-temp-prompts`. It can analyze and optimize a neural-network project, run baseline and ablation experiments, and resume local work. Its complete research protocol is in [references/research-execution-spec.md](references/research-execution-spec.md). The instructions apply to any Agent Skills-compatible host; native invocation syntax differs by agent.
+This execution skill is independent of the ordinary Markdown prompt library in `stator-temperature/prompts/`. It can analyze and optimize a neural-network project, run baseline and ablation experiments, and resume local work. Its complete research protocol is in [references/research-execution-spec.md](references/research-execution-spec.md). The instructions apply to any Agent Skills-compatible host; native invocation syntax differs by agent.
 
 ## Session activation gate
 
