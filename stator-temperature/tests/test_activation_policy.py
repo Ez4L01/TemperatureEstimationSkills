@@ -62,7 +62,8 @@ class ActivationPolicyTests(unittest.TestCase):
         self.assertIn("never replace existing results", SKILL)
         for command in ENABLE_COMMANDS:
             self.assertIn(command, SKILL)
-            self.assertIn(command, AGENTS_TEMPLATE)
+        self.assertIn("启用 stator-temp-optimizer Skill。", AGENTS_TEMPLATE)
+        self.assertIn("Codex's", AGENTS_TEMPLATE)
         for term in ("10%", "Early Stopping", "CUDA", "MeanRMSE", "MaxAbs", "PooledRMSE"):
             self.assertIn(term, SPEC)
         original = (PROMPTS_DIR / "references" / "stator-temp-optimization.md").read_bytes()

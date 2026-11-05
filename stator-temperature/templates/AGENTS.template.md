@@ -1,23 +1,16 @@
 # Stator Temperature Project Instructions
 
-These instructions apply only when this template is deliberately installed in a stator-temperature research project. They do not change user-level or global instructions. They do not restrict direct, explicit invocation of other Skills.
+Use these instructions only when this template is deliberately copied or merged into a research project's `AGENTS.md`. They do not apply globally. `stator-temp-prompts` and `stator-temp-optimizer` are independent Skills; these execution rules do not restrict explicit use of another Skill.
 
-## `stator-temp-optimizer` conversation gate
+## Session gate for `stator-temp-optimizer`
 
-- The default conversation state is `INACTIVE`. Installing, discovering, or loading `stator-temp-optimizer` does not activate it.
-- Set the state to `ACTIVE` only after the user explicitly enables the Skill in the current Codex conversation with one of these commands:
-  - `使用 $stator-temp-optimizer，启用本次会话的迭代模式。`
-  - `启用 stator-temp-optimizer Skill。`
-  - `$stator-temp-optimizer 启用迭代模式`
-- Determine activation only from explicit user intent in the current conversation. A Skill name or `迭代` appearing in discussion, quoted text, documents, or code comments does not activate or execute it.
-- A new Codex conversation starts `INACTIVE` and must be enabled again. After `退出迭代模式` or `停用 stator-temp-optimizer`, return to `INACTIVE` and require explicit re-enablement. If the state cannot be reliably confirmed, fail closed as `INACTIVE`.
-- Only when the current conversation is `ACTIVE` and has not been deactivated does a user message consisting exactly of `迭代` after trimming surrounding whitespace authorize the optimizer workflow. Otherwise reply: `当前对话尚未启用 stator-temp-optimizer。请先发送：使用 $stator-temp-optimizer，启用本次会话的迭代模式。` Do not start training, inspect or modify project files, or create experiment artifacts in response to that inactive shortcut.
-- The explicit user request `$stator-temp-optimizer 迭代` is a separate one-shot execution authorization, even while `INACTIVE`; it does not activate the conversation for later shortcut messages. Quoting or discussing that command is not authorization.
-- Enabling the Skill only checks that its execution specification is available and that the open project is suitable. It does not start training.
-- On an authorized iteration, read the full execution specification, inspect local experiment progress, and resume without replacing existing experiments. Limit each call to at most 3 new formal experiment versions, including a baseline if one is needed.
-- Keep conversation activation separate from durable experiment progress. Store project progress in `Ablation/experiment_state.json`; never use that file as evidence of activation. A new conversation must be explicitly enabled before continuing with the standalone `迭代` shortcut.
-- Preserve independent test data and keep training data, weights, checkpoints, logs, and experiment results local. GitHub synchronization requires separate explicit authorization.
-
-## Other Skills
-
-These activation rules apply only to `stator-temp-optimizer`. Handle a user's direct explicit invocation of another Skill under that Skill's own instructions.
+- Every new agent conversation starts `INACTIVE`. Installing, discovering, loading, or reading the Skill does not activate it.
+- Set the current conversation to `ACTIVE` only after the user clearly asks to enable the Skill in this conversation, for example `启用 stator-temp-optimizer Skill。`, Codex's `使用 $stator-temp-optimizer，启用本次会话的迭代模式。`, or the host's explicit `/stator-temp-optimizer 启用迭代模式` form.
+- A mention, quotation, discussion, document, code comment, or example containing `stator-temp-optimizer` or `迭代` is not an enable or run request.
+- Only when the current conversation is `ACTIVE` and has not been deactivated does a latest user message whose trimmed content is exactly `迭代` authorize this Skill. Otherwise, do not inspect or modify the research project, create experiment files, or train. Reply: `当前对话尚未启用 stator-temp-optimizer。请先发送：使用 $stator-temp-optimizer，启用本次会话的迭代模式。`
+- On an authorized iteration, read the complete `references/research-execution-spec.md`, inspect `Ablation/` and resume from existing progress. Never replace an existing experiment. Run at most three new formal experiment versions in one call, including a baseline if needed.
+- `退出迭代模式` or `停用 stator-temp-optimizer` returns this conversation to `INACTIVE`. Stop starting experiments; safely stop running work and preserve usable checkpoints and records where possible.
+- Activation is session-only and must never be written to persistent project settings. A new conversation starts `INACTIVE`; if activation history is unclear, require re-enablement. Keep durable experiment progress separately in `Ablation/experiment_state.json`.
+- An explicit host-native Skill invocation paired with a clear request to run one iteration (for example, `$stator-temp-optimizer 迭代` in Codex or `/stator-temp-optimizer 迭代` on a slash-command host) authorizes that call only. It does not activate later standalone `迭代` messages. A quoted or discussed invocation is not authorization.
+- Keep research code, data, weights, checkpoints, logs, plots, and results local by default. Any GitHub synchronization requires separate explicit authorization. Never use test data for model selection or training.
+- Do not restrict the user's direct, explicit invocation of other Skills.

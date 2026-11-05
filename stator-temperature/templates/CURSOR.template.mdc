@@ -1,0 +1,17 @@
+---
+description: Gate the stator-temp-optimizer iteration shortcut behind explicit activation in the current Cursor conversation.
+alwaysApply: true
+---
+
+# Stator Temperature Project Instructions
+
+- Start each Cursor conversation `INACTIVE`. Installing, discovering, or loading `stator-temp-optimizer` does not activate it or start training.
+- Set this conversation to `ACTIVE` only after the user explicitly asks to enable it, for example `启用 stator-temp-optimizer Skill。` or `/stator-temp-optimizer 启用迭代模式`.
+- Mentions, quotations, documents, and examples do not enable or execute the Skill.
+- Only while `ACTIVE`, a latest user message whose trimmed content is exactly `迭代` may run the optimizer. Otherwise do not inspect or modify the research project; reply: `当前对话尚未启用 stator-temp-optimizer。请先发送：启用 stator-temp-optimizer Skill。`
+- Before running, read the full `references/research-execution-spec.md` and inspect `Ablation/`; resume existing progress without overwriting it and add at most three new formal experiment versions per call.
+- `退出迭代模式` or `停用 stator-temp-optimizer` resets this conversation to `INACTIVE`. New conversations and uncertain activation state are also `INACTIVE`.
+- Keep activation only in conversation context. Store durable progress in `Ablation/experiment_state.json`.
+- `/stator-temp-optimizer 迭代` is a one-call request only. A quoted invocation is not authorization.
+- Keep training data, model artifacts, logs, plots, and results local by default. Preserve the independent test set. GitHub synchronization requires separate explicit authorization.
+- This gate does not restrict explicit invocation of other Skills.
